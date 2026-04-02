@@ -1,4 +1,4 @@
-# EPUB to Typst Converter
+# EPUB to Typst to PDF Converter
 
 This project allows you to convert EPUB books to professional PDF documents using **Pandoc** and **Typst**.
 
