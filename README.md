@@ -1,6 +1,10 @@
-# Unified EPUB-to-PDF Converter
+# EPUB & PDF Tools
 
-A unified, easy-to-use tool to convert EPUB files to high-quality PDF documents using **Typst** and **Pandoc**. The tool automatically detects whether the input EPUB is a **fixed-layout** book (e.g., Manga, Comic, or image-heavy eBook) or a **reflowable** text book and applies the appropriate layout engine.
+A simple toolkit to package images into EPUB files, and convert EPUB files to high-quality PDF documents using **Typst** and **Pandoc**:
+
+```
+[Folder of Images] ──(img2epub.py)──> [EPUB Ebook] ──(epub2pdf.py)──> [High-Quality PDF]
+```
 
 ---
 
@@ -12,19 +16,19 @@ A unified, easy-to-use tool to convert EPUB files to high-quality PDF documents 
 
 ---
 
-## Quick Start
+## 1. EPUB-to-PDF Converter (`epub2pdf.py`)
 
-You can run the script instantly using `uv run`. It will automatically manage the dependency on `PyYAML` in a temporary, cached virtual environment:
+Converts EPUB files to high-quality PDF documents. It automatically detects whether the input EPUB is a **fixed-layout** book (e.g., Manga, Comic, or image-heavy eBook) or a **reflowable** text book and applies the appropriate layout engine.
+
+### Quick Start
 
 ```bash
 uv run epub2pdf.py path/to/book.epub
 ```
 
-By default, the compiled PDF will be saved in a folder named `output/` in your current working directory (e.g., `output/book.pdf`).
+By default, the compiled PDF will be saved in `output/<book_name>.pdf`.
 
----
-
-## Command-Line Options
+### Command-Line Options
 
 ```bash
 uv run epub2pdf.py <epub_path> [options]
@@ -44,16 +48,14 @@ uv run epub2pdf.py <epub_path> [options]
 | `--fit` | Image fit style: `contain` (default), `cover`, or `stretch` (only applies to `fixed` layout). |
 | `--keep-temp` | Keep intermediate Typst files and extracted images inside a `<book_name>_typst/` directory for debugging. |
 
----
-
-## Configuration Files
+### Configuration Files
 
 The tool automatically searches for default layout-specific configuration files in the directory it is executed from:
 
 * **Reflowable Books (`reflow`):** Searches for `reflow-config.yaml` $\rightarrow$ `metadata.yaml` $\rightarrow$ `epub2pdf.yaml`.
 * **Fixed-Layout Books (`fixed`):** Searches for `fixed-config.yaml` $\rightarrow$ `metadata.yaml` $\rightarrow$ `epub2pdf.yaml`.
 
-### Example Configuration (`reflow-config.yaml`)
+#### Example Configuration (`reflow-config.yaml`)
 
 ```yaml
 ---
@@ -69,22 +71,24 @@ columns: 1
 
 ---
 
-## Building EPUB from Images
+## 2. Image-to-EPUB Compiler (`img2epub.py`)
 
-You can package a directory of images (e.g., Manga or Comic pages) into a valid fixed-layout EPUB 3 using the `img2epub.py` script located in the `img2ebook` directory.
+Packages a directory of images (e.g., scanned Manga or Comic pages) into a valid fixed-layout EPUB 3 ebook. 
+
+The compiler naturally sorts the image filenames, automatically reads the dimensions of each image using `Pillow` to establish correct page viewports, and designates the first page as the book cover.
 
 ### Quick Start
 
 ```bash
-uv run img2ebook/img2epub.py path/to/images [options]
+uv run img2epub.py path/to/images [options]
 ```
 
-By default, the EPUB will be saved in `output/<directory_name>.epub`. The script automatically reads the dimensions of each image using `Pillow` to establish correct page viewport sizes, and designates the first page as the book cover.
+By default, the EPUB will be saved in `output/<directory_name>.epub`.
 
 ### Command-Line Options
 
 ```bash
-uv run img2ebook/img2epub.py <image_dir> [options]
+uv run img2epub.py <image_dir> [options]
 ```
 
 | Option | Description |
